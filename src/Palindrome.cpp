@@ -64,7 +64,7 @@ Data* WordInverter::compute ( Data* input_ )
 	//
 	SingleWord* output = sword->reverse();
 	INFO(output->getData());
-	
+	delete sword;
 	
 	
 	//
