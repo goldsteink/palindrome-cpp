@@ -74,6 +74,54 @@ void SingleWord::encode ( char* bytes_ )
 
 
 
+//-------------------------------------------------
+SingleWord* SingleWord::reverse ()
+{
+	//
+	// make sure im valid
+	//
+	if (_data == nullptr)
+	{
+		string err = "Reverse called with no data initialized";
+		ERR(err);
+		throw new runtime_error(err);
+	}
+
+
+	//
+	// reverse my data
+	//
+	int len = strlen(_data);
+	char* rhsData = new char[len + 1];
+	for (int i = 0; i < len; i++)
+	{
+		rhsData[len - i] = _data[i];
+	}
+	rhsData[len] = '\0';
+
+
+
+	//
+	// pass out new object
+	//
+	return new SingleWord(rhsData);
+}
+
+
+
+
+
+//-------------------------------------------------
+const char* SingleWord::getData ()
+{
+	return const_cast<const char*>(_data);
+}
+
+
+
+
+
+
 //**************************************************************************************************
 // the decoder
 //**************************************************************************************************

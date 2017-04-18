@@ -41,7 +41,7 @@ extern bool w_main ( int argc_, char **argv_, Application *application_builder_ 
 	theApp->new_pipeline("palindrome", pInput);
 	theApp->to(inverterFactory);
 	theApp->to_sink(pOutput);
-	theApp->done();
+	//theApp->done();
 	return true;
 }
 
