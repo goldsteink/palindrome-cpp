@@ -102,26 +102,26 @@ fi
 
 PYTHON_FLAGS=`python-config --cflags --ldflags`
 PONYC_FLAGS=`pkg-config --libs ponyc`
-BIN=palindrome
-/usr/bin/c++    \
-    -std=c++11 \
-    -g \
-    -g \
-    -O0 \
-    -fPIC \
-    CMakeFiles/palindrome.dir/src/PalindromeIO.cpp.o \
-    CMakeFiles/palindrome.dir/src/Palindrome.cpp.o \
-    CMakeFiles/palindrome.dir/src/main.cpp.o \
-    -o \
-    bin/$BIN \
-    ./lib/src.o \
-    $PYTHON_FLAGS \
-    $PONYC_FLAGS \
-    -ldl \
-    -lpthread \
-    -lwallaroo -L$WALL_LIB_PATH
-    
-    
+BIN=palindrome_stateless
+/usr/bin/c++ -std=c++11 \
+    -g -O0 -fPIC \
+    CMakeFiles/palindrome_stateless.dir/src/PalindromeIO.cpp.o \
+    CMakeFiles/palindrome_stateless.dir/src/StatelessPalindrome.cpp.o \
+    CMakeFiles/palindrome_stateless.dir/src/main.cpp.o \
+    -o bin/$BIN ./lib/src.o $PYTHON_FLAGS $PONYC_FLAGS \
+    -ldl -lpthread -lwallaroo -L$WALL_LIB_PATH
+
+BIN=palindrome_statefull
+/usr/bin/c++ -std=c++11 \
+    -g -O0 -fPIC \
+    CMakeFiles/palindrome_stateless.dir/src/StatelessPalindrome.cpp.o \
+    CMakeFiles/palindrome_stateless.dir/src/PalindromeIO.cpp.o \
+    CMakeFiles/palindrome_stateless.dir/src/StatefullPalindrome.cpp.o \
+    CMakeFiles/palindrome_stateless.dir/src/PalindromePartition.cpp.o \
+    CMakeFiles/palindrome_stateless.dir/src/main.cpp.o \
+    -o bin/$BIN ./lib/src.o $PYTHON_FLAGS $PONYC_FLAGS \
+    -ldl -lpthread -lwallaroo -L$WALL_LIB_PATH
+            
 
 
 if [ -e $PWD/../src/WallarooHooks.py ] ; then 

@@ -20,6 +20,8 @@ class SingleWord : public Data
 	public:
 		size_t getSize ();
 		void encode ( char* bytes_ );
+		SingleWord* reverse();
+		const char* getData(); 
 };
 
 

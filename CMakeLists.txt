@@ -73,21 +73,28 @@ pkg_check_modules(PONYC REQUIRED ponyc)
 pkg_check_modules(WLRCPPAAPI REQUIRED wallaroocppapi)
 
 
-#get_cmake_property(_variableNames VARIABLES)
-#foreach (_variableName ${_variableNames})
-#  message(STATUS "${_variableName}=${${_variableName}}")
-#endforeach()
+get_cmake_property(_variableNames VARIABLES)
+foreach (_variableName ${_variableNames})
+  message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 
 
 
 
 # c++ files
 set (
-  SOURCE_FILES
-  src/PalindromeIO.hpp
+  STATELESS_SOURCE_FILES
   src/PalindromeIO.cpp
-  src/Palindrome.cpp
-  src/Palindrome.hpp
+  src/StatelessPalindrome.cpp
+  src/main.cpp
+  )
+  
+set(
+	STATEFULL_SOURCE_FILES
+	src/PalindromeIO.cpp
+  src/StatefullPalindrome.cpp
+  src/PalindromePartition.cpp
+  src/StatelessPalindrome.cpp
   src/main.cpp
   )
 
@@ -118,10 +125,11 @@ SET (bootstrap -Wl,--whole-archive ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/src.o -Wl,-
 
 
 message(STATUS "pony and wallaroo libs: ${PONYC_LIBRARIES};${WLRCPPAAPI_LIBRARIES}")
-message(STATUS "\tfrom: ${SEND_PONY_STATIC_LIBRARY_DIRS}")
-message(STATUS "\tfrom: ${WLRCPPAAPI_STATIC_LIBRARY_DIRS}")
-message(STATUS "\tfrom: ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+message(STATUS "\tStateless files: ${STATELESS_SOURCE_FILES}")
+message(STATUS "\tStatefull fules: ${STATEFULL_SOURCE_FILES}")
 
-add_executable(palindrome ${SOURCE_FILES})
-target_link_libraries(palindrome ${PYTHON_LIBRARIES} Threads::Threads)
-target_link_libraries(palindrome bootstrap)
+add_executable(palindrome_stateless ${STATELESS_SOURCE_FILES} ${STATEFULL_SOURCE_FILES})
+target_link_libraries(palindrome_stateless ${PYTHON_LIBRARIES} Threads::Threads)
+target_link_libraries(palindrome_stateless bootstrap)
+
+

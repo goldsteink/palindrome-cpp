@@ -2,6 +2,7 @@
 #include "stdinc.hpp"
 #include <cstring>
 #include <sstream>
+#include <exception>
 using namespace std;
 
 //**************************************************************************************************
@@ -24,7 +25,7 @@ SingleWord::SingleWord ( char* data_ ) :
 	int ln = strlen(data_);
 	_data = new char[ln + 1];
 	strncpy(_data, data_, ln);
-	_data[ln] = 0;
+	_data[ln] = '\0';
 }
 
 
@@ -71,6 +72,51 @@ void SingleWord::encode ( char* bytes_ )
 }
 
 
+
+
+
+//-------------------------------------------------
+SingleWord* SingleWord::reverse ()
+{
+	//
+	// make sure im valid
+	//
+	if (_data == nullptr)
+	{
+		string err = "Reverse called with no data initialized";
+		ERR(err);
+		throw new runtime_error(err);
+	}
+
+
+	//
+	// reverse my data
+	//
+	int len = strlen(_data);
+	char* rhsData = new char[len + 1];
+	for (int i = 0; i < len; i++)
+	{
+		rhsData[len - i] = _data[i];
+	}
+	rhsData[len] = '\0';
+
+
+
+	//
+	// pass out new object
+	//
+	return new SingleWord(rhsData);
+}
+
+
+
+
+
+//-------------------------------------------------
+const char* SingleWord::getData ()
+{
+	return const_cast<const char*>(_data);
+}
 
 
 
@@ -122,7 +168,7 @@ size_t PalindromeInput::header_length ()
 //-------------------------------------------------
 size_t PalindromeInput::payload_length ( char* bytes_ )
 {
-	int	ln = strlen(bytes_);
+	int ln = strlen(bytes_);
 	stringstream ios;
 	ios << __PRETTY_FUNCTION__;
 	ios << ":";
@@ -131,7 +177,7 @@ size_t PalindromeInput::payload_length ( char* bytes_ )
 	return ln;
 }
 
-   
+
 
 
 
