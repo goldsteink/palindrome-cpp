@@ -298,7 +298,7 @@ void PalindromeOutput::encode ( Data* data_, char* bytes_ )
 	//
 	sword->encode(bytes_);
 	INFO("Encoded: " << bytes_);
-
+	delete data_;
 
 
 
