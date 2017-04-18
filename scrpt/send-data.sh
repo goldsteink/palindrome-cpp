@@ -12,8 +12,14 @@ name="start"
 while [ "$name" != "quit" ] ; 
 do
     read -p "input>" name
-    $print DBG "typed:$name"
-    echo $name | nc 127.0.0.1 7000
+    len=${#name}
+    if [ $len -le 9 ] ; then 
+	    $print DBG "typed:$name, len:$len"
+	    echo -ne "\x0$len$name" | hexdump -C
+	    echo -ne "\x0$len$name" | nc 127.0.0.1 7000
+	else
+		$print ERR "To long, max char count is 9"
+	fi
 done
 
 
