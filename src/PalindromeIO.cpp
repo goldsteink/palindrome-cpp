@@ -22,9 +22,31 @@ SingleWord::SingleWord ( char* data_ ) :
 	// copy in the data
 	//
 	int ln = strlen(data_);
-	_data = new char[ln + 1];
+	_data = new char[ln+1];
 	strncpy(_data, data_, ln);
-	_data[ln] = 0;
+}
+
+
+
+
+
+//-------------------------------------------------
+SingleWord::SingleWord ( char* data_, int len_ ) :
+			_data(nullptr)
+{
+	LOG(__FUNCTION__);
+	if (data_ == nullptr)
+	{
+		WARN(__FUNCTION__ << ", received empty data in constructor!");
+		return;
+	}
+
+	//
+	// copy in the data
+	//
+	_data = new char[len_+1];
+	strncpy(_data, data_, len_);
+	INFO(_data);
 }
 
 
@@ -92,12 +114,11 @@ SingleWord* SingleWord::reverse ()
 	// reverse my data
 	//
 	int len = strlen(_data);
-	char* rhsData = new char[len + 1];
+	char* rhsData = new char[len+1];
 	for (int i = 0; i < len; i++)
 	{
-		rhsData[len - i] = _data[i];
+		rhsData[len - 1] = _data[i];
 	}
-	rhsData[len] = '\0';
 
 
 
@@ -121,12 +142,12 @@ const char* SingleWord::getData ()
 
 
 
-
 //**************************************************************************************************
 // the decoder
 //**************************************************************************************************
 //-------------------------------------------------
-PalindromeInput::PalindromeInput ()
+PalindromeInput::PalindromeInput () :
+			_currSz(0)
 {
 	LOG(__PRETTY_FUNCTION__);
 }
@@ -160,7 +181,7 @@ const char* PalindromeInput::name ()
 size_t PalindromeInput::header_length ()
 {
 	LOG(__PRETTY_FUNCTION__);
-	return 1;
+	return sizeof(char);
 }
 
 
@@ -170,16 +191,14 @@ size_t PalindromeInput::header_length ()
 //-------------------------------------------------
 size_t PalindromeInput::payload_length ( char* bytes_ )
 {
-	int	ln = strlen(bytes_);
-	stringstream ios;
-	ios << __PRETTY_FUNCTION__;
-	ios << ":";
-	ios << ln;
-	INFO(ios.str());
-	return ln;
+	int ln = strlen(bytes_);
+	short sz = 0;
+	memcpy((char*) &sz, bytes_, sizeof(char));
+	_currSz = sz;
+	return sz;
 }
 
-   
+
 
 
 
@@ -187,7 +206,7 @@ size_t PalindromeInput::payload_length ( char* bytes_ )
 Data* PalindromeInput::decode ( char* bytes_ )
 {
 	LOG(__PRETTY_FUNCTION__);
-	SingleWord* sword = new SingleWord(bytes_);
+	SingleWord* sword = new SingleWord(bytes_, _currSz);
 	return sword;
 }
 

@@ -44,7 +44,7 @@ const char* WordInverter::name ()
 
 Data* WordInverter::compute ( Data* input_ )
 {
-	WARN(__PRETTY_FUNCTION__);
+	SUCCESS(__PRETTY_FUNCTION__);
 	
 	
 	//
@@ -70,7 +70,7 @@ Data* WordInverter::compute ( Data* input_ )
 	//
 	// done
 	//
-	return sword;
+	return output;
 }
 
 

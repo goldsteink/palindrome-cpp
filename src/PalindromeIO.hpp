@@ -15,6 +15,7 @@ class SingleWord : public Data
 
 	public:
 		SingleWord ( char* data_ );
+		SingleWord ( char* data_, int sz_ );
 		virtual ~SingleWord ();
 
 	public:
@@ -30,6 +31,9 @@ class SingleWord : public Data
 //**************************************************************************************************
 class PalindromeInput : public SourceDecoder
 {
+	private:
+		int _currSz;
+		
 	public:
 		PalindromeInput ();
 		virtual ~PalindromeInput ();
