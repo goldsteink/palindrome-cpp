@@ -160,7 +160,7 @@ const char* PalindromeInput::name ()
 size_t PalindromeInput::header_length ()
 {
 	LOG(__PRETTY_FUNCTION__);
-	return 0;
+	return 1;
 }
 
 
