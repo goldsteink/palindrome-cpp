@@ -9,7 +9,8 @@ using namespace std;
 //**************************************************************************************************
 //-------------------------------------------------
 SingleWord::SingleWord ( char* data_ ) :
-			_data(nullptr)
+			_data(nullptr),
+			_dSz(0)
 {
 	LOG(__FUNCTION__);
 	if (data_ == nullptr)
@@ -21,9 +22,9 @@ SingleWord::SingleWord ( char* data_ ) :
 	//
 	// copy in the data
 	//
-	int ln = strlen(data_);
-	_data = new char[ln+1];
-	strncpy(_data, data_, ln);
+	_dSz = strlen(data_);
+	_data = new char[_dSz + 1];
+	strncpy(_data, data_, _dSz);
 }
 
 
@@ -32,7 +33,8 @@ SingleWord::SingleWord ( char* data_ ) :
 
 //-------------------------------------------------
 SingleWord::SingleWord ( char* data_, int len_ ) :
-			_data(nullptr)
+			_data(nullptr),
+			_dSz(len_)
 {
 	LOG(__FUNCTION__);
 	if (data_ == nullptr)
@@ -44,8 +46,9 @@ SingleWord::SingleWord ( char* data_, int len_ ) :
 	//
 	// copy in the data
 	//
-	_data = new char[len_+1];
-	strncpy(_data, data_, len_);
+	_data = new char[_dSz + 1];
+	strncpy(_data, data_, _dSz);
+	_data[_dSz] = '\0';
 	INFO(_data);
 }
 
@@ -71,13 +74,13 @@ SingleWord::~SingleWord ()
 //-------------------------------------------------
 size_t SingleWord::getSize ()
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 	if (_data == nullptr)
 	{
 		return 0;
 	}
 
-	return strlen(_data);
+	return _dSz;
 }
 
 
@@ -113,11 +116,11 @@ SingleWord* SingleWord::reverse ()
 	//
 	// reverse my data
 	//
-	int len = strlen(_data);
-	char* rhsData = new char[len+1];
-	for (int i = 0; i < len; i++)
+	int len = _dSz - 1;
+	char* rhsData = new char[_dSz + 1];
+	for (int i = len; i >= 0; i--)
 	{
-		rhsData[len - 1] = _data[i];
+		rhsData[len - i] = _data[i];
 	}
 
 
@@ -125,7 +128,7 @@ SingleWord* SingleWord::reverse ()
 	//
 	// pass out new object
 	//
-	return new SingleWord(rhsData);
+	return new SingleWord(rhsData, _dSz);
 }
 
 
@@ -252,6 +255,7 @@ size_t PalindromeOutput::get_size ( Data* data_ )
 	SingleWord* sword = dynamic_cast<SingleWord*>(data_);
 	if (sword != nullptr)
 	{
+		INFO("OutputSz:" << sword->getSize());
 		return sword->getSize();
 	}
 
@@ -262,6 +266,7 @@ size_t PalindromeOutput::get_size ( Data* data_ )
 	//
 	// done
 	//
+	WARN("Was unable to convert data to SingleWord, returning 0");
 	return 0;
 }
 
@@ -292,6 +297,7 @@ void PalindromeOutput::encode ( Data* data_, char* bytes_ )
 	// work on it!
 	//
 	sword->encode(bytes_);
+	INFO("Encoded: " << bytes_);
 
 
 

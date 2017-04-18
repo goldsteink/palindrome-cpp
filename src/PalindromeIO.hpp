@@ -12,6 +12,7 @@ class SingleWord : public Data
 {
 	private:
 		char* _data;
+		int _dSz;
 
 	public:
 		SingleWord ( char* data_ );
@@ -21,8 +22,8 @@ class SingleWord : public Data
 	public:
 		size_t getSize ();
 		void encode ( char* bytes_ );
-                SingleWord* reverse();
-		const char* getData(); 
+		SingleWord* reverse ();
+		const char* getData ();
 };
 
 
@@ -33,7 +34,7 @@ class PalindromeInput : public SourceDecoder
 {
 	private:
 		int _currSz;
-		
+
 	public:
 		PalindromeInput ();
 		virtual ~PalindromeInput ();
