@@ -27,8 +27,8 @@ const std::string reset("\033[0m");
 #define WARN(x) (cout << cyan << __FILE__ << ":" << __LINE__ << " -- " << x << reset << endl)
 
 #ifndef NDEBUG
-#define INFO(x) (cout << yellow << x << reset << endl)
-#define SUCCESS(x) (cout << green << x << reset << endl)
+#define INFO(x) (cout << yellow << __PRETTY_FUNCTION__ << " -- " << x << reset << endl)
+#define SUCCESS(x) (cout << green << __PRETTY_FUNCTION__ << " -- " << x << reset << endl)
 #define LOG(x) (cout << x << endl)
 #else
 #define INFO(x) ()

@@ -10,7 +10,7 @@ using namespace std;
 //**************************************************************************************************
 WordInverter::WordInverter ()
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 }
 
 
@@ -21,7 +21,7 @@ WordInverter::WordInverter ()
 
 WordInverter::~WordInverter ()
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 }
 
 
@@ -32,7 +32,7 @@ WordInverter::~WordInverter ()
 
 const char* WordInverter::name ()
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 	return "WordInverter";
 }
 
@@ -63,7 +63,6 @@ Data* WordInverter::compute ( Data* input_ )
 	// reverse & log
 	//
 	SingleWord* output = sword->reverse();
-	INFO(output->getData());
 	delete sword;
 	
 	
@@ -82,6 +81,6 @@ Data* WordInverter::compute ( Data* input_ )
 //**************************************************************************************************
 WordInverter* WordInverterFactory::build ()
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 	return new WordInverter();
 }

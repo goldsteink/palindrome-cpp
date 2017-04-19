@@ -4,6 +4,8 @@
 #include <sstream>
 using namespace std;
 
+
+
 //**************************************************************************************************
 // the single word
 //**************************************************************************************************
@@ -12,10 +14,10 @@ SingleWord::SingleWord ( char* data_ ) :
 			_data(nullptr),
 			_dSz(0)
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 	if (data_ == nullptr)
 	{
-		WARN(__FUNCTION__ << ", received empty data in constructor!");
+		WARN("received empty data in constructor!");
 		return;
 	}
 
@@ -23,8 +25,8 @@ SingleWord::SingleWord ( char* data_ ) :
 	// copy in the data
 	//
 	_dSz = strlen(data_);
-	_data = new char[_dSz + 1];
-	strncpy(_data, data_, _dSz);
+	deserialize(data_);
+	INFO("SZ:" << _dSz <<",data:[" << _data <<"]");
 }
 
 
@@ -36,20 +38,18 @@ SingleWord::SingleWord ( char* data_, int len_ ) :
 			_data(nullptr),
 			_dSz(len_)
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 	if (data_ == nullptr)
 	{
-		WARN(__FUNCTION__ << ", received empty data in constructor!");
+		WARN("received empty data in constructor!");
 		return;
 	}
 
 	//
 	// copy in the data
 	//
-	_data = new char[_dSz + 1];
-	strncpy(_data, data_, _dSz);
-	_data[_dSz] = '\0';
-	INFO(_data);
+	deserialize(data_);
+	INFO("SZ:" << _dSz <<",data:[" << _data <<"]");
 }
 
 
@@ -59,7 +59,7 @@ SingleWord::SingleWord ( char* data_, int len_ ) :
 //-------------------------------------------------
 SingleWord::~SingleWord ()
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 	if (_data != nullptr)
 	{
 		delete[] _data;
@@ -72,7 +72,7 @@ SingleWord::~SingleWord ()
 
 
 //-------------------------------------------------
-size_t SingleWord::getSize ()
+size_t SingleWord::serialize_get_size ()
 {
 	LOG(__PRETTY_FUNCTION__);
 	if (_data == nullptr)
@@ -88,13 +88,25 @@ size_t SingleWord::getSize ()
 
 
 //-------------------------------------------------
-void SingleWord::encode ( char* bytes_ )
+void SingleWord::serialize ( char* bytes_ )
 {
-	LOG(__FUNCTION__);
+	LOG(__PRETTY_FUNCTION__);
 	int ln = strlen(_data);
 	strncpy(bytes_, _data, ln);
 }
 
+
+
+
+
+//-------------------------------------------------
+void SingleWord::deserialize ( char* bytes_ )
+{
+	LOG(__PRETTY_FUNCTION__);
+	_data = new char[_dSz + 1];
+	strncpy(_data, bytes_, _dSz);
+	_data[_dSz] = '\0';
+}
 
 
 
@@ -255,8 +267,8 @@ size_t PalindromeOutput::get_size ( Data* data_ )
 	SingleWord* sword = dynamic_cast<SingleWord*>(data_);
 	if (sword != nullptr)
 	{
-		INFO("OutputSz:" << sword->getSize());
-		return sword->getSize();
+		INFO("OutputSz:" << sword->serialize_get_size());
+		return sword->serialize_get_size();
 	}
 
 
@@ -296,8 +308,8 @@ void PalindromeOutput::encode ( Data* data_, char* bytes_ )
 	//
 	// work on it!
 	//
-	sword->encode(bytes_);
-	INFO("Encoded: " << bytes_);
+	sword->serialize(bytes_);
+	INFO("Serialized: " << bytes_);
 	delete data_;
 
 

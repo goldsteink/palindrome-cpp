@@ -20,10 +20,13 @@ class SingleWord : public Data
 		virtual ~SingleWord ();
 
 	public:
-		size_t getSize ();
-		void encode ( char* bytes_ );
 		SingleWord* reverse ();
 		const char* getData ();
+
+	public:
+		virtual void serialize ( char* bytes_ );
+		virtual void deserialize (char* bytes_);
+		virtual size_t serialize_get_size ();
 };
 
 
